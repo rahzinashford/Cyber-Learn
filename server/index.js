@@ -1,0 +1,14 @@
+import { createServer } from "node:http";
+import { createApp } from "./app.js";
+import { env } from "./config/env.js";
+import { createSocketServer } from "./sockets/index.js";
+
+const app = createApp();
+const httpServer = createServer(app);
+const io = createSocketServer(httpServer);
+
+app.set("io", io);
+
+httpServer.listen(env.port, () => {
+  console.log(`API listening on http://localhost:${env.port}`);
+});
